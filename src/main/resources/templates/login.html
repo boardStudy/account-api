@@ -1,14 +1,42 @@
 <!DOCTYPE html>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>로그인</title>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 </head>
+<script>
+    $(document).ready(function() {
+        $("#login").click(function() {
+           let userId = $("input[name=userId]").val();
+           let password = $("input[name=password]").val();
+            $.ajax({
+                type: 'POST',
+                async: false,
+                url: '/users/login',
+                data: JSON.stringify({userId: userId, password: password}),
+                headers: {"content-type": "application/json"},
+                statusCode: {
+                    401: function () {
+                        alert("비밀번호를 확인해주세요.");
+                        $("input[name=password]").val('');
+                    },
+                    404: function () {
+                        alert("아이디를 확인해주세요.");
+                        $("input[name=userId]").val('');
+                        $("input[name=password]").val('');
+                    },
+                    200: function () {
+                        location.href="/board/list";
+                    }
+                }
+            });
+        });
+    });
+</script>
 <body>
-
-<form action="/user/login" method="post">
-
     <div class="container">
         <h2 align="center">로그인</h2>
         <div class="loginForm"
@@ -24,11 +52,9 @@
                     <input type="password"
                            class="form-control" id="password" name="password" placeholder="비밀번호를 입력해주세요.">
                 </div>
-                <button type="submit" class="btn btn-dark">로그인</button>
+                <button class="btn btn-dark" id="login" name="login">로그인</button>
             </div>
         </div>
-
     </div>
-</form>
 </body>
 </html>

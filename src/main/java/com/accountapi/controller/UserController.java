@@ -7,12 +7,12 @@ import com.accountapi.service.ValidationManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("users")
@@ -22,12 +22,14 @@ public class UserController {
     private final AccountManager accountManager;
     private final ValidationManager validationManager;
 
+    private static final String MAIN_PAGE_URL = "/board/list";
+
     // 로그인
     @PostMapping("/login")
-    public ResponseEntity<Void> login(LoginRequest loginRequest, HttpSession session) {
+    public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest, HttpSession session) {
 
         User user = accountManager.findUserById(loginRequest.getUserId());
-        if (user == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if (user == null) return new ResponseEntity<>("아이디를 확인해주세요.", HttpStatus.NOT_FOUND);
 
         String rawPassword = loginRequest.getPassword();
         String encodedPassword = user.getPassword();
@@ -36,18 +38,17 @@ public class UserController {
             session.setAttribute("user", user);
             return new ResponseEntity<>(HttpStatus.OK);
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>("비밀번호를 확인해주세요", HttpStatus.UNAUTHORIZED);
     }
 
     // 로그아웃
     @GetMapping("/logout")
-    public void logout(HttpSession session) {
+    public void logout(HttpSession session, HttpServletResponse response, HttpServletRequest request) throws IOException {
+        String domain = request.getRequestURL().toString().replace(request.getRequestURI(), "");
         session.invalidate();
+        response.sendRedirect(domain + MAIN_PAGE_URL);
     }
 
-    // 회원가입
-
-    // 회원 수정
 
 
 }

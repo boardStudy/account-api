@@ -1,7 +1,7 @@
 # myBatis
 mybatis:
   mapper-locations: mybatis/mapper/*.xml
-  type-aliases-package: com.accountapi.boardStudy
+  type-aliases-package: com.accountapi
   config-location: classpath:mybatis-config.xml
 
 # DB ??
