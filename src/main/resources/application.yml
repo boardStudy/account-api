@@ -4,13 +4,19 @@ mybatis:
   type-aliases-package: com.accountapi
   config-location: classpath:mybatis-config.xml
 
-# DB ??
+# DB 설정
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     password: ${sql-server-password}
     url: jdbc:mysql://dev.donghyeon.dev:3307/board
     username: root
+# redis 설정
+  session:
+    storage-type: redis
+  redis:
+    host: dev.donghyeon.dev
+    port: 6379
 
 sql-server-password: ${SQL_PASSWORD}
 

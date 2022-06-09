@@ -11,8 +11,4 @@ public class TemplatesController {
         return "login";
     }
 
-    @GetMapping("/board/list")
-    public String testPage(){
-        return "list";
-    }
 }
