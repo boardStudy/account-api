@@ -14,8 +14,9 @@ spring:
 # redis 설정
   session:
     storage-type: redis
+    timeout: 600
   redis:
-    host: dev.donghyeon.dev
+    host: localhost
     port: 6379
 
 sql-server-password: ${SQL_PASSWORD}

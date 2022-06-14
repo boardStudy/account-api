@@ -26,19 +26,19 @@ public class UserController {
 
     // 로그인
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest, HttpSession session) {
+    public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest, HttpSession session
+    ) {
 
         User user = accountManager.findUserById(loginRequest.getUserId());
+
         if (user == null) return new ResponseEntity<>("아이디를 확인해주세요.", HttpStatus.NOT_FOUND);
 
         String rawPassword = loginRequest.getPassword();
         String encodedPassword = user.getPassword();
+        if (!validationManager.validateByPassword(rawPassword, encodedPassword)) return new ResponseEntity<>("비밀번호를 확인해주세요", HttpStatus.UNAUTHORIZED);
 
-        if (validationManager.validateByPassword(rawPassword, encodedPassword)) {
-            session.setAttribute("user", user);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-        return new ResponseEntity<>("비밀번호를 확인해주세요", HttpStatus.UNAUTHORIZED);
+        session.setAttribute("user", user.getUserId());
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     // 로그아웃

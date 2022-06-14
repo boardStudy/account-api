@@ -7,8 +7,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class TemplatesController {
 
     @GetMapping("/users/login")
-    public String loadLoginPage(){
+    public String loadLoginPage() {
         return "login";
     }
 
+//    @GetMapping("/users/login-test")
+//    public String test() {
+//        return "list";
+//    }
 }
