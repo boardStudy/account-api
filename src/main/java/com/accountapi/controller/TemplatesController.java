@@ -10,9 +10,4 @@ public class TemplatesController {
     public String loadLoginPage() {
         return "login";
     }
-
-//    @GetMapping("/users/login-test")
-//    public String test() {
-//        return "list";
-//    }
 }

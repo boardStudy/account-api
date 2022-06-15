@@ -31,12 +31,15 @@ public class UserController {
 
         User user = accountManager.findUserById(loginRequest.getUserId());
 
+        // 아이디 확인
         if (user == null) return new ResponseEntity<>("아이디를 확인해주세요.", HttpStatus.NOT_FOUND);
 
+        // 비밀번호 확인
         String rawPassword = loginRequest.getPassword();
         String encodedPassword = user.getPassword();
         if (!validationManager.validateByPassword(rawPassword, encodedPassword)) return new ResponseEntity<>("비밀번호를 확인해주세요", HttpStatus.UNAUTHORIZED);
 
+        // 로그인 성공
         session.setAttribute("user", user.getUserId());
         return new ResponseEntity<>(HttpStatus.OK);
     }
