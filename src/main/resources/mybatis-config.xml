@@ -4,5 +4,6 @@
 
 <configuration>
     <typeAliases>
+        <typeAlias alias="user" type="com.accountapi.dto.User"/>
     </typeAliases>
 </configuration>
