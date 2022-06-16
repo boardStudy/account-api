@@ -26,18 +26,18 @@ public class UserController {
 
     // 로그인
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest, HttpSession session
+    public ResponseEntity login(@RequestBody LoginRequest loginRequest, HttpSession session
     ) {
 
         User user = accountManager.findUserById(loginRequest.getUserId());
 
         // 아이디 확인
-        if (user == null) return new ResponseEntity<>("아이디를 확인해주세요.", HttpStatus.NOT_FOUND);
+        if (user == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         // 비밀번호 확인
         String rawPassword = loginRequest.getPassword();
         String encodedPassword = user.getPassword();
-        if (!validationManager.validateByPassword(rawPassword, encodedPassword)) return new ResponseEntity<>("비밀번호를 확인해주세요", HttpStatus.UNAUTHORIZED);
+        if (!validationManager.validateByPassword(rawPassword, encodedPassword)) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
         // 로그인 성공
         session.setAttribute("user", user.getUserId());
