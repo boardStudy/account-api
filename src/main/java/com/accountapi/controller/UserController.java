@@ -26,8 +26,7 @@ public class UserController {
 
     // 로그인
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody LoginRequest loginRequest, HttpSession session
-    ) {
+    public ResponseEntity login(@RequestBody LoginRequest loginRequest, HttpSession session) {
 
         User user = accountManager.findUserById(loginRequest.getUserId());
 
