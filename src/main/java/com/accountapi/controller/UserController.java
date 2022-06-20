@@ -3,16 +3,21 @@ package com.accountapi.controller;
 import com.accountapi.dto.LoginRequest;
 import com.accountapi.dto.User;
 import com.accountapi.service.AccountManager;
+import com.accountapi.service.DuplicateChecker;
 import com.accountapi.service.ValidationManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.io.IOException;
+import java.util.Map;
 
 @RestController
 @RequestMapping("users")
@@ -21,6 +26,7 @@ public class UserController {
 
     private final AccountManager accountManager;
     private final ValidationManager validationManager;
+    private final DuplicateChecker duplicateChecker;
 
     private static final String MAIN_PAGE_URL = "/board/list";
 
@@ -51,6 +57,33 @@ public class UserController {
         response.sendRedirect(domain + MAIN_PAGE_URL);
     }
 
+    // 회원가입
+    @PostMapping("sign-up")
+    public void createUser(@Valid @RequestBody User signUpInfo, Errors errors, Model model) {
+        if(errors.hasErrors()) passErrorMessageToView(errors, model);
+        accountManager.createUser(signUpInfo);
+    }
+
+    // ID 중복 확인
+    @PostMapping("check/id")
+    public int checkId(@RequestParam String userId) {
+        int count = duplicateChecker.checkDuplicateId(userId);
+        return count;
+    }
+
+    // 전화번호 중복 확인
+    @PostMapping("check/phone")
+    public int checkPhone(@RequestParam String phone) {
+        int count = duplicateChecker.checkDuplicatePhone(phone);
+        return count;
+    }
+
+    private void passErrorMessageToView(Errors errors, Model model) {
+        Map<String, String> validationResult = validationManager.displayErrorMessage(errors);
+        for (String fieldName : validationResult.keySet()) {
+            model.addAttribute(fieldName, validationResult.get(fieldName));
+        }
+    }
 
 
 }
