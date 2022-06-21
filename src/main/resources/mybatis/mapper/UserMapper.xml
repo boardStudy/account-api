@@ -30,7 +30,7 @@
     <!-- 회원가입 -->
     <insert id="createUser" parameterType="user">
         INSERT INTO TBL_USER
-        (user_id, password, email, reg_date, withd_status, name, phone,gender, user_auth)
+        (user_id, password, email, reg_date, withd_status, name, phone, gender, user_auth)
         VALUES(#{userId}, #{password}, #{email}, #{regDate}, 0, #{name}, #{phone}, #{gender}, 0)
     </insert>
 

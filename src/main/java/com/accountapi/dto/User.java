@@ -19,12 +19,12 @@ public class User implements Serializable{
 
     @NotBlank(message = "아이디를 입력해주세요.")
     @Size(min = 4, max = 30, message = "아이디는 4글자에서 30글자 사이로 입력해주세요.")
-    @Pattern(regexp = "\"^([a-z가-힣0-9]){4,30}$\"", message = "대문자, 특수문자는 입력할 수 없습니다.")
+    @Pattern(regexp = "^([a-z가-힣0-9]){4,30}$", message = "대문자, 특수문자는 입력할 수 없습니다.")
     private String userId;
 
     @NotBlank(message = "비밀번호를 입력해주세요.")
     @Size(min = 8, max = 20, message = "최소 8자에서 최대 20자까지 입력 가능합니다.")
-    @Pattern(regexp="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^*()\\-_=+\\\\\\|\\[\\]{};:\\'\",.<>\\/?]).{8,20}", message = "영문 대소문자, 숫자, 특수문자가 적어도 1개 이상 조합되게 입력해주세요.")
+    @Pattern(regexp="(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{8,20}", message = "영문, 숫자, 특수문자가 적어도 1개 이상 조합되게 입력해주세요.")
     private String password;
 
     @Email(message = "이메일 형식에 맞게 입력해주세요.")
@@ -34,7 +34,7 @@ public class User implements Serializable{
     private String name;
 
     @NotBlank(message = "전화번호를 입력해주세요.")
-    @Pattern(regexp = "(01[016789])(\\\\d{3,4})(\\\\d{4})\"", message = "전화번호 형식에 맞게 입력해주세요.")
+    @Pattern(regexp = "(01[016789])(\\d{3,4})(\\d{4})", message = "전화번호 형식에 맞게 입력해주세요.")
     private String phone;
 
     private LocalDateTime regDate;

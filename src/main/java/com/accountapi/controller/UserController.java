@@ -58,10 +58,10 @@ public class UserController {
     }
 
     // 회원가입
-    @PostMapping("sign-up")
-    public void createUser(@Valid @RequestBody User signUpInfo, Errors errors, Model model) {
-        if(errors.hasErrors()) passErrorMessageToView(errors, model);
+    @PostMapping
+    public ResponseEntity createUser(@RequestBody @Valid User signUpInfo) {
         accountManager.createUser(signUpInfo);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     // ID 중복 확인
@@ -78,12 +78,12 @@ public class UserController {
         return count;
     }
 
-    private void passErrorMessageToView(Errors errors, Model model) {
-        Map<String, String> validationResult = validationManager.displayErrorMessage(errors);
-        for (String fieldName : validationResult.keySet()) {
-            model.addAttribute(fieldName, validationResult.get(fieldName));
-        }
-    }
+//    private void passErrorMessageToView(Errors errors, Model model) {
+//        Map<String, String> validationResult = validationManager.displayErrorMessage(errors);
+//        for (String fieldName : validationResult.keySet()) {
+//            model.addAttribute(fieldName, validationResult.get(fieldName));
+//        }
+//    }
 
 
 }
