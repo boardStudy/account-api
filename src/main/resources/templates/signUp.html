@@ -18,7 +18,6 @@
           <input type="text" class="form-control" id="userId" name="userId" placeholder="아이디를 입력해주세요." oninput="checkUserId()" required/>
           <span class="userId_success" style="display: none; color: green">사용 가능한 아이디입니다.</span>
           <span class="userId_fail" style="display: none; color: red">사용 불가능한 아이디입니다.</span><br>
-          <span style="color: red" th:text="${userId}"></span>
         </div>
 
         <div class="form-group">
@@ -26,7 +25,6 @@
 
           <input type="password" class="form-control" id="inputPassword" name="password" placeholder="비밀번호를 입력해주세요." oninput="checkPassword()" required>
           <span class="password_fail" style="display: none; color: red"></span><br>
-          <span style="color: red" th:text="${password}"></span></br>
         </div>
 
         <div class="form-group">
@@ -34,21 +32,19 @@
           <input type="password" class="form-control" id="inputCheckPassword" name="checkPassword" placeholder="비밀번호를 확인해주세요." oninput="checkPasswordChecker()" required>
           <span class="passwordChecker_fail" style="display: none; color: red"></span><br>
         </div>
-        <br>
+
         <div class="form-group">
           <label for="inputName">이름</label><span style="color: red">  *</span>
           <input type="text" class="form-control" id="inputName" name="name" placeholder="이름을 입력해주세요." required>
-          <span style="color: red" th:text="${name}"></span></br>
         </div>
         <div class="form-group">
           <label for="phone">전화번호</label><span style="color: red">  *</span>
           <input type="text" class="form-control" id="phone" name="phone" placeholder="전화번호를 입력해주세요." oninput="checkPhone()" required/>
           <span class="phone_success" style="display: none; color: green">사용 가능한 번호입니다.</span>
           <span class="phone_fail" style="display: none; color: red">사용 불가능한 번호입니다.</span><br>
-          <span style="color: red" th:text="${phone}"></span>
         </div>
         <div class="form-group">
-          <label for="gender">성</label>
+          <label for="gender">성별</label>
           <fieldset class="form-group">
             <select class="form-select" id="gender" name="gender">
               <option value="1">남자</option>
@@ -62,7 +58,6 @@
           <label for="email">이메일</label><span style="color: red">  *</span>
           <input type="text" class="form-control" id="email" name="email" placeholder="이메일을 입력해주세요." oninput="checkEmail()" required/>
           <span class="email_fail" style="display: none; color: red">이메일 형식을 확인해주세요.</span><br>
-          <span style="color: red" th:text="${email}"></span></br>
         </div>
         <button type="submit" class="btn btn-secondary" id="signUpBtn">가입하기</button>
       </div>
@@ -206,7 +201,7 @@
         if(userId == ""||password == ""||name == ""||phone == ""||gender == ""||email == "") {
           alert("필수 항목을 모두 입력해주세요.");
         }else {
-          alert('error');
+          alert("입력값을 다시 한번 확인해주세요.");
         }
       }
     });

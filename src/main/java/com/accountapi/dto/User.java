@@ -28,6 +28,7 @@ public class User implements Serializable{
     private String password;
 
     @Email(message = "이메일 형식에 맞게 입력해주세요.")
+    @NotBlank(message = "이메일을 입력해주세요.")
     private String email;
 
     @NotBlank(message = "이름을 입력해주세요.")

@@ -8,8 +8,7 @@ import com.accountapi.service.ValidationManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
+
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.Map;
 
 @RestController
 @RequestMapping("users")
@@ -60,6 +58,7 @@ public class UserController {
     // 회원가입
     @PostMapping
     public ResponseEntity createUser(@RequestBody @Valid User signUpInfo) {
+
         accountManager.createUser(signUpInfo);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -77,13 +76,5 @@ public class UserController {
         int count = duplicateChecker.checkDuplicatePhone(phone);
         return count;
     }
-
-//    private void passErrorMessageToView(Errors errors, Model model) {
-//        Map<String, String> validationResult = validationManager.displayErrorMessage(errors);
-//        for (String fieldName : validationResult.keySet()) {
-//            model.addAttribute(fieldName, validationResult.get(fieldName));
-//        }
-//    }
-
 
 }
