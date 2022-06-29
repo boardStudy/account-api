@@ -1,5 +1,9 @@
 package com.accountapi.controller;
 
+import com.accountapi.dto.ErrorDto;
+import com.accountapi.exception.AccountApiException;
+import com.accountapi.exception.DuplicatedIdException;
+import com.accountapi.exception.InvalidPasswordException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -27,5 +31,11 @@ public class ExceptionController {
             builder.append("]");
         }
         return ResponseEntity.badRequest().body(builder.toString());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(AccountApiException.class)
+    public ErrorDto invalidIdError(AccountApiException ex) {
+        return new ErrorDto(ex.getMessage());
     }
 }

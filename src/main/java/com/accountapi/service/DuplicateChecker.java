@@ -1,5 +1,6 @@
 package com.accountapi.service;
 
+import com.accountapi.exception.DuplicatedIdException;
 import com.accountapi.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,9 @@ public class DuplicateChecker {
     @Transactional
     public int checkDuplicateId(String userId) {
         int count = userMapper.checkDuplicateId(userId);
+        
+        if(count > 0) 
+            throw new DuplicatedIdException();
         return count;
     }
 

@@ -110,9 +110,8 @@
           $('.userId_fail').css("display", "none");
         }
       },
-      error:function(){
-        console.log(cnt);
-        alert("Error");
+      error:function(xhr, status, error){
+        alert(xhr.responseJSON.message);
       }
     });
   };
