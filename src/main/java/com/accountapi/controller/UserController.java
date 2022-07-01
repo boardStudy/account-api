@@ -3,10 +3,14 @@ package com.accountapi.controller;
 import com.accountapi.dto.LoginRequest;
 import com.accountapi.dto.User;
 import com.accountapi.service.AccountManager;
+import com.accountapi.service.DuplicateChecker;
 import com.accountapi.service.ValidationManager;
+import com.accountapi.validation.ValidationSequence;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +25,7 @@ public class UserController {
 
     private final AccountManager accountManager;
     private final ValidationManager validationManager;
+    private final DuplicateChecker duplicateChecker;
 
     private static final String MAIN_PAGE_URL = "/board/list";
 
@@ -51,6 +56,18 @@ public class UserController {
         response.sendRedirect(domain + MAIN_PAGE_URL);
     }
 
+    // 회원가입
+    @PostMapping
+    public ResponseEntity createUser(@Validated(ValidationSequence.class) @RequestBody User signUpInfo) {
 
+        accountManager.createUser(signUpInfo);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    // ID 중복 확인
+    @PostMapping("check/id")
+    public void checkId(@RequestParam String userId) {
+        duplicateChecker.checkDuplicateId(userId);
+    }
 
 }
