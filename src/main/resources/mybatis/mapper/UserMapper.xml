@@ -41,10 +41,4 @@
         WHERE user_id = #{userId}
     </select>
 
-    <!-- 전화번호 중복 체크 -->
-    <select id="checkDuplicatePhone" parameterType="String" resultType="int">
-        SELECT COUNT(phone)
-        FROM TBL_USER
-        WHERE phone = #{phone}
-    </select>
 </mapper>

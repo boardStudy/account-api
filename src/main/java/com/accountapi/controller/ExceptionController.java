@@ -2,8 +2,6 @@ package com.accountapi.controller;
 
 import com.accountapi.dto.ErrorDto;
 import com.accountapi.exception.AccountApiException;
-import com.accountapi.exception.DuplicatedIdException;
-import com.accountapi.exception.InvalidPasswordException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -11,26 +9,22 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestControllerAdvice
 @RestController
 public class ExceptionController {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<String> processValidationError(MethodArgumentNotValidException exception) {
+    public ResponseEntity<Map<String, String>> processValidationError(MethodArgumentNotValidException exception) {
         BindingResult bindingResult = exception.getBindingResult();
 
-        StringBuilder builder = new StringBuilder();
-        for (FieldError fieldError : bindingResult.getFieldErrors()) {
-            builder.append("[");
-            builder.append(fieldError.getField());
-            builder.append("](은)는 ");
-            builder.append(fieldError.getDefaultMessage());
-            builder.append(" 입력된 값: [");
-            builder.append(fieldError.getRejectedValue());
-            builder.append("]");
-        }
-        return ResponseEntity.badRequest().body(builder.toString());
+        Map<String, String> errors = new HashMap<>();
+        bindingResult.getAllErrors()
+                .forEach(c -> errors.put(((FieldError) c).getField(), c.getDefaultMessage()));
+        return ResponseEntity.badRequest().body(errors);
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)

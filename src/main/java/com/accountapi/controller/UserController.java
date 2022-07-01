@@ -5,16 +5,17 @@ import com.accountapi.dto.User;
 import com.accountapi.service.AccountManager;
 import com.accountapi.service.DuplicateChecker;
 import com.accountapi.service.ValidationManager;
+import com.accountapi.validation.ValidationSequence;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 import java.io.IOException;
 
 @RestController
@@ -57,7 +58,7 @@ public class UserController {
 
     // 회원가입
     @PostMapping
-    public ResponseEntity createUser(@RequestBody @Valid User signUpInfo) {
+    public ResponseEntity createUser(@Validated(ValidationSequence.class) @RequestBody User signUpInfo) {
 
         accountManager.createUser(signUpInfo);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -65,16 +66,8 @@ public class UserController {
 
     // ID 중복 확인
     @PostMapping("check/id")
-    public int checkId(@RequestParam String userId) {
-        int count = duplicateChecker.checkDuplicateId(userId);
-        return count;
-    }
-
-    // 전화번호 중복 확인
-    @PostMapping("check/phone")
-    public int checkPhone(@RequestParam String phone) {
-        int count = duplicateChecker.checkDuplicatePhone(phone);
-        return count;
+    public void checkId(@RequestParam String userId) {
+        duplicateChecker.checkDuplicateId(userId);
     }
 
 }

@@ -12,5 +12,4 @@ public interface UserMapper {
 
     int checkDuplicateId(String userId);
 
-    int checkDuplicatePhone(String phone);
 }
